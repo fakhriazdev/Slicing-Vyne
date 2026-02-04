@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import LocomotiveScroll from "locomotive-scroll";
-import "locomotive-scroll/dist/locomotive-scroll.css";
 
 export default function SmoothScroll({
                                          children,
@@ -12,22 +10,35 @@ export default function SmoothScroll({
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (!scrollRef.current) return;
+        // Kita gunakan dynamic import karena Locomotive Scroll butuh objek 'window'
+        // yang hanya ada di sisi client.
+        let locomotiveScroll: any;
 
-        const scroll = new LocomotiveScroll({
-            el: scrollRef.current,
-            smooth: true,
-            multiplier: 1,
-            class: "is-reveal",
-        });
+        (async () => {
+            try {
+                const LocomotiveScroll = (await import("locomotive-scroll")).default;
+
+                // Di v5, inisialisasi jauh lebih sederhana.
+                // Properti 'el', 'smooth', dll sudah dihandle otomatis secara native.
+                locomotiveScroll = new LocomotiveScroll({
+                    lenisOptions: {
+                        lerp: 0.1,         // Kehalusan scroll (0.1 - 1)
+                        duration: 1.2,      // Durasi scroll
+                        smoothWheel: true,
+                    },
+                });
+            } catch (error) {
+                console.error("Locomotive Scroll failed to load", error);
+            }
+        })();
 
         return () => {
-            scroll.destroy();
+            if (locomotiveScroll) locomotiveScroll.destroy();
         };
     }, []);
 
     return (
-        <div data-scroll-container ref={scrollRef}>
+        <div ref={scrollRef} data-scroll-container>
             {children}
         </div>
     );
