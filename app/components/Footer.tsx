@@ -2,6 +2,8 @@
 
 import { ArrowDownRight, Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import Image from 'next/image';
+import * as React from "react";
+import {cn} from "@/lib/utils";
 
 export default function Footer() {
     return (
@@ -53,9 +55,20 @@ export default function Footer() {
                                 {/* Separator Line */}
                                 <div className="hidden md:block flex-1 h-px bg-white/20 mx-8"></div>
                                 {/* Button */}
-                                <button className="bg-transparent text-white px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-4 rounded-none border border-white hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-2 text-xs sm:text-sm md:text-base font-medium w-full md:w-auto justify-center">
-                                    <span>START YOUR PROJECT</span>
-                                    <ArrowDownRight size={18} className="sm:w-5 sm:h-5" />
+                                <button className={cn(
+                                    "group flex items-center border-2 px-8 py-4 uppercase font-semibold",
+                                    // Base State (Light Mode)
+                                    "bg-white border-black text-black",
+                                    // Dark Mode State (Penting agar sinkron dengan logo/nav)
+                                    "dark:bg-transparent dark:border-white dark:text-white",
+                                    // Hover State
+                                    "hover:bg-[#35615C] hover:border-[#35615C] hover:text-white",
+                                    "dark:hover:bg-[#35615C] dark:hover:border-[#35615C]",
+                                    // Transisi halus
+                                    "transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                                )}>
+                                    <span className="text-lg pr-2">START YOUR PROJECT</span>
+                                    <ArrowDownRight className="w-6 h-6 transition-transform duration-500 ease-out group-hover:translate-x-1 group-hover:translate-y-1" />
                                 </button>
                             </div>
                         </div>

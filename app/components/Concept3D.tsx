@@ -66,7 +66,7 @@ export default function Concept3D() {
 
                                 {/* RIGHT SIDE */}
                                 <div className="flex flex-col justify-between py-1 min-w-0 flex-1">
-                                    <h3 className="text-primary text-3xl md:text-2xl xl:text-4xl font-semibold leading-[0.9] tracking-tighter mb-6 xl:mb-0">
+                                    <h3 className="text-primary text-3xl md:text-2xl xl:text-4xl font-semibold leading-10 tracking-tighter mb-6 xl:mb-0 max-w-[1047px]">
                                         {it.desc}
                                     </h3>
 

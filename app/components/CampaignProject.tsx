@@ -18,13 +18,13 @@ export const clients: ProjectCampaign[] = [
 
 export function CampaignProject() {
     return (
-        <section className="w-full pt-16 pb-8 md:pt-16 md:pb-16 bg-white">
+        <section className="w-full pt-16 pb-8 md:pt-16 md:pb-16 bg-white dark:bg-[#272524] transition-colors duration-800 ease-in-out">
             {/* Header: Dibuat lebih padat dan proporsional */}
-            <div className="px-6 md:px-20 mb-12 md:mb-20 flex flex-col items-center text-center">
-                <p className="text-sm md:text-base font-bold uppercase tracking-[0.2em] text-primary/60 mb-4 md:mb-6">
+            <div className="px-6 mb-12 md:mb-20 flex flex-col items-center text-center">
+                <p className="text-sm md:text-base 2xl:text-xl font-bold uppercase tracking-[0.2em] text-primary/60 mb-4 md:mb-6">
                     CAMPAIGN PROJECT
                 </p>
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter text-primary max-w-[900px] leading-[0.95]">
+                <h2 className="text-3xl md:text-5xl lg:text-6xl 2xl:text-[51px] font-bold uppercase tracking-tighter text-primary max-w-[1200px] leading-[0.95]">
                     IDEA CRAFTED INTO MEANINGFUL STORIES
                 </h2>
             </div>
@@ -34,14 +34,14 @@ export function CampaignProject() {
                 {/* - Gap dikurangi sedikit agar flow antar gambar lebih enak (gap-8 md:gap-12)
                    - Padding kanan pada container dalam ditingkatkan agar kartu terakhir tidak mepet
                 */}
-                <div className="flex gap-8 md:gap-10 px-6 md:px-20 pb-10">
+                <div className="flex gap-8 md:gap-10 pb-10 pl-8  md:pl-12 lg:pl-18 xl:pl-22">
                     {clients.map((client, index) => (
                         <figure
                             key={index}
                             /* Lebar disesuaikan agar pada layar standar kartu berikutnya
                                terlihat 'mengintip' (peek) sebagai affordance scroll.
                             */
-                            className="flex flex-col shrink-0 w-[85vw] md:w-[450px] lg:w-[500px] group"
+                            className="flex flex-col shrink-0 w-[80vw] md:w-[450px] lg:w-[500px] group"
                         >
                             {/* Frame Gambar: Menggunakan aspect ratio 6/7 sesuai keinginan Anda */}
                             <div className="relative aspect-[6/7] w-full overflow-hidden rounded-sm bg-gray-100">

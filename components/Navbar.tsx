@@ -69,13 +69,13 @@ export default function Navbar() {
             className={cn(
                 "fixed inset-x-0 top-0 z-50 w-full",
                 "transition-all duration-300",
-                onHero ? "bg-transparent" : scrolled ? "bg-white/60 backdrop-blur-sm" : "bg-transparent",
+                onHero ? "bg-transparent" : scrolled ? "bg-white/60 dark:bg-black/10 backdrop-blur-sm" : "bg-transparent",
                 visible ? "translate-y-0" : "-translate-y-full"
             )}
         >
             {/* ✅ w-full (no max-w) */}
             <div className="w-full">
-                <div className="relative flex h-20 md:h-24 lg:h-28 w-full items-center px-6 md:px-10 lg:px-20">
+                <div className="relative flex h-20 md:h-24 lg:h-28 2xl:h-28 w-full items-center px-3 md:px-10 lg:px-12 xl:px-18">
                     {/* LEFT (w-full column) */}
                     <div className="flex w-full basis-1/3 items-center justify-start">
                         <Sheet open={open} onOpenChange={setOpen}>
@@ -85,27 +85,31 @@ export default function Navbar() {
                                     size="icon"
                                     aria-label="Open menu"
                                     className={cn(
-                                        "h-12 w-12 rounded-full p-0",
+                                        "h-12 w-12 rounded-full p-0 transition-colors duration-300",
                                         onHero ? "hover:bg-white/10" : "hover:bg-black/5"
                                     )}
                                 >
-                                    <div className="group inline-flex items-center justify-center gap-1">
-                    <span
-                        className={cn(
-                            "h-1.5 w-1.5 rounded-full transition-transform duration-300 ease-out group-hover:-translate-x-0.5",
-                            dotColor
-                        )}
-                    />
+                                    {/* Gunakan flex-col untuk menumpuk garis ke bawah */}
+                                    <div className={cn(
+                                        "group flex flex-col items-center justify-center gap-[5px] transition-colors duration-500",
+                                        onHero ? "text-white" : "text-black dark:text-white"
+                                    )}>
                                         <span
                                             className={cn(
-                                                "h-1.5 w-1.5 rounded-full transition-transform duration-300 ease-out",
-                                                dotColor
+                                                "h-[2px] w-6 rounded-full transition-all duration-300 ease-out group-hover:translate-y-[-1px]",
+                                                "bg-current"
                                             )}
                                         />
                                         <span
                                             className={cn(
-                                                "h-1.5 w-1.5 rounded-full transition-transform duration-300 ease-out group-hover:translate-x-0.5",
-                                                dotColor
+                                                "h-[2px] w-6 rounded-full transition-all duration-300 ease-out",
+                                                "bg-current"
+                                            )}
+                                        />
+                                        <span
+                                            className={cn(
+                                                "h-[2px] w-6 rounded-full transition-all duration-300 ease-out group-hover:translate-y-[1px]",
+                                                "bg-current"
                                             )}
                                         />
                                     </div>
@@ -123,13 +127,22 @@ export default function Navbar() {
                                 <div className="flex h-full flex-col bg-[#D9D9D9] text-black">
                                     <SheetHeader className="relative border-b border-black/10 px-6 py-6 sm:px-10 sm:py-8 lg:px-20 lg:py-10">
                                         <SheetTitle className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                                            <Logo variant="black" size={82} />
+                                            {/* Cukup panggil variant black, Tailwind class di dalam komponen akan handle dark mode-nya */}
+                                            <div className="flex w-full basis-1/3 items-center justify-center">
+                                                <Link href="/" className="flex items-center" aria-label="Brand">
+                                                    <Logo
+                                                        // Ganti "black" menjadi "black-blue" agar saat dark mode dia berubah biru
+                                                        variant={onHero ? "white" : "black-blue"}
+                                                        className="w-24 transition-all duration-300"
+                                                    />
+                                                </Link>
+                                            </div>
                                         </SheetTitle>
 
                                         <div className="flex items-center justify-end">
                                             <SheetClose asChild>
                                                 <button
-                                                    className="group flex items-center justify-center bg-transparent text-black outline-none"
+                                                    className="group flex items-center justify-center bg-transparent text-black dark:text-white outline-none"
                                                     aria-label="Close menu"
                                                 >
                                                     <svg
@@ -194,7 +207,12 @@ export default function Navbar() {
                     {/* CENTER (w-full column) */}
                     <div className="flex w-full basis-1/3 items-center justify-center">
                         <Link href="/" className="flex items-center" aria-label="Brand">
-                            <Logo variant={onHero ? "white" : "black"} className="w-24 transition-all duration-300" />
+                            <Logo
+                                // Tetap Putih saat di Hero (onHero)
+                                // Otomatis Hitam/Putih saat sudah scroll (variant black-blue)
+                                variant={onHero ? "white" : "black-blue"}
+                                className="w-24 transition-all duration-800"
+                            />
                         </Link>
                     </div>
 
@@ -210,7 +228,7 @@ export default function Navbar() {
                                         className={cn(
                                             "group inline-flex flex-col w-fit text-xs md:text-sm lg:text-lg cursor-pointer hover:opacity-70 transition-opacity",
                                             // ✅ Tambahkan kondisi warna teks di sini
-                                            onHero ? "text-white" : "text-black"
+                                            onHero ? "text-white" : "text-black dark:text-white"
                                         )}
                                     >
                                     <span className="inline-flex items-center gap-1 uppercase tracking-widest font-medium">
@@ -222,7 +240,7 @@ export default function Navbar() {
                                         <div
                                             className={cn(
                                                 "h-[2px] w-0 transition-all duration-500 group-hover:w-full mt-1",
-                                                onHero ? "bg-white" : "bg-black"
+                                                onHero ? "bg-white" : "text-black dark:text-white"
                                             )}
                                         />
                                     </Link>

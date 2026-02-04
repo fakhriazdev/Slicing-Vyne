@@ -17,8 +17,8 @@ const items = [
 
 export default function Services() {
     return (
-        <section className="relative w-full overflow-hidden uppercase">
-            <div className="mx-auto w-full px-4 md:px-18 xl:px-40">
+        <section className="relative w-full overflow-hidden uppercase dark:bg-[#272524] transition-colors duration-800 ease-in-out">
+            <div className="mx-auto w-full px-5 md:px-18 xl:px-40">
                 <div className="mb-20">
                     {items.map((it, i) => {
                         const reverse = i % 2 === 1;
@@ -40,11 +40,11 @@ export default function Services() {
                                     )}
                                 >
                                     {/* number nempel di atas title */}
-                                    <p className="absolute left-0 top-0 text-lg lg:text-xl font-semibold">
+                                    <p className="absolute text-primary dark:text-white transition-colors duration-800 ease-in-out left-0 top-0 text-lg lg:text-xl 2xl:text-2xl font-semibold">
                                         {num}
                                     </p>
 
-                                    <p className="text-primary text-3xl md:text-[28px] xl:text-5xl font-semibold leading-tight tracking-tighter whitespace-nowrap">
+                                    <p className="m-0 p-0 text-primary dark:text-white transition-colors duration-800 ease-in-out text-3xl md:text-[28px] xl:text-5xl 2xl:text-[64px] font-semibold leading-tight tracking-tighter whitespace-nowrap">
                                         {it.title}
                                     </p>
                                 </div>
@@ -52,7 +52,7 @@ export default function Services() {
                                 {/* RIGHT (desc sejajar dengan title di sm+) */}
                                 <p
                                     className={cn(
-                                        "text-primary text-left text-base xl:text-lg leading-relaxed sm:pt-7",
+                                        "text-primary dark:text-white text-left text-base xl:text-lg 2xl:text-xl leading-relaxed sm:pt-7",
                                         reverse ? "sm:order-1" : "sm:order-2"
                                     )}
                                 >

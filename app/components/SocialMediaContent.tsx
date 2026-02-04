@@ -25,15 +25,15 @@ export function SocialMediaContent() {
 
                 {/* LEFT SIDE: Content Teks */}
                 {/* Kita hapus justify-between agar elemen mengikuti flow alami */}
-                <div className="flex flex-col px-5 md:pl-12 xl:pl-20 shrink-0 w-full md:w-[45%] xl:w-[550px]">
+                <div className="flex flex-col px-5 md:pl-12 xl:pl-20 shrink-0 w-full md:w-[45%] xl:w-[550px] 2xl:w-[600px]">
                     <div className="w-full text-start">
                         <p className="text-xs xl:text-base uppercase tracking-widest text-primary mb-6 whitespace-nowrap">
                             SOCIAL MEDIA & SHORT-FORM CONTENT
                         </p>
-                        <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold uppercase tracking-tighter text-primary leading-[0.9] mb-8">
+                        <h2 className="text-3xl md:text-4xl xl:text-5xl 2xl:text-5xl font-bold uppercase tracking-tighter text-primary leading-[0.9] mb-8">
                             Fast-paced and platform-optimized
                         </h2>
-                        <p className="text-base md:text-lg tracking-tight text-primary/80 mb-8 md:mb-35 leading-relaxed">
+                        <p className="text-base md:text-lg 2xl:text-lg tracking-tight text-primary/80 mb-8 md:mb-35 2xl:mb-36 leading-relaxed">
                             video content designed to boost engagement,
                             visibility, and retention across TikTok, IG,
                             YT Shorts, and more.
@@ -46,7 +46,7 @@ export function SocialMediaContent() {
                         className="group inline-flex flex-col w-fit text-base lg:text-lg cursor-pointer hover:opacity-70 transition-opacity"
                     >
                         {/* Menggunakan items-center agar icon dan teks sejajar secara vertikal di tengah */}
-                        <span className="inline-flex items-center gap-1 uppercase tracking-widest font-medium">
+                        <span className="inline-flex items-center gap-1 font-medium text-primary">
                                     See More
                                     <ArrowDownRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
                                 </span>
@@ -78,7 +78,7 @@ export function SocialMediaContent() {
 
                                     {/* Caption Container: Jarak mt-5 di sini harus sinkron dengan feel visual See More di kiri */}
                                     <div className="flex flex-col gap-3 mt-5">
-                                        <figcaption className="text-primary font-bold text-lg md:text-base uppercase tracking-wider leading-tight">
+                                        <figcaption className="text-primary font-bold text-lg md:text-lg uppercase tracking-wider leading-tight">
                                             {client.name}
                                         </figcaption>
                                         <p className="text-primary/70 text-sm md:text-base tracking-normal leading-relaxed whitespace-normal">

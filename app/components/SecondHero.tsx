@@ -5,7 +5,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as React from "react";
 import Link from "next/link";
-import {ArrowDownRight} from "lucide-react";
+import { ArrowDownRight } from "lucide-react";
+import {cn} from "@/lib/utils";
 
 export default function SecondHero() {
     const sectionRef = useRef<HTMLElement | null>(null);
@@ -15,57 +16,69 @@ export default function SecondHero() {
     useLayoutEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
 
-        const getNavHeight = () => {
-            const nav = document.querySelector("header");
-            return nav?.offsetHeight ?? 0;
-        };
+        const section = sectionRef.current;
+        const title = titleRef.current;
+        const media = mediaWrapRef.current;
+        if (!section || !title || !media) return;
 
         const mm = gsap.matchMedia();
 
-        mm.add("(min-width: 768px)", () => {
-            const section = sectionRef.current;
-            const title = titleRef.current;
-            const media = mediaWrapRef.current;
-            if (!section || !title || !media) return;
+        // 1. THEME CHANGER (Berlaku untuk SEMUA Viewport)
+        ScrollTrigger.create({
+            trigger: section,
+            start: "top top+=330", // Disesuaikan kembali agar lebih sensitif
+            end: "bottom bottom-=480",
+            onEnter: () => document.documentElement.classList.add("dark"),
+            onEnterBack: () => document.documentElement.classList.add("dark"),
+            onLeave: () => document.documentElement.classList.remove("dark"),
+            onLeaveBack: () => document.documentElement.classList.remove("dark"),
+        });
 
+        // 2. PINNING (Hanya untuk Desktop >= 768px)
+        mm.add("(min-width: 768px)", () => {
             ScrollTrigger.create({
                 trigger: section,
-                // PIN DIMULAI: Saat section menyentuh bagian atas (plus offset navbar)
                 start: "top top",
-
-                // PIN SELESAI: Saat dasar video sejajar dengan dasar title
-                // Jaraknya adalah: (Tinggi total video wrapper) - (Tinggi title)
                 end: () => `+=${media.offsetHeight - title.offsetHeight}`,
-
                 pin: title,
-                pinSpacing: false, // Menghindari gap aneh di bawah title
+                pinSpacing: false,
                 anticipatePin: 1,
-                invalidateOnRefresh: true,
             });
         });
 
-        return () => mm.revert();
+        return () => {
+            // Membersihkan semua trigger saat komponen unmount
+            ScrollTrigger.getAll().forEach(t => t.kill());
+            mm.revert();
+        };
     }, []);
 
     return (
         <section
             ref={sectionRef}
-            className="relative w-full overflow-hidden bg-[#D9D9D9]"
+            /* PENTING: Pastikan bg awal (light mode) didefinisikan.
+               Gunakan 'transition-colors' agar perubahan ke dark mode mulus.
+            */
+            className="relative w-full overflow-hidden dark:bg-[#272524] transition-colors duration-800 ease-in-out"
         >
-            <div className="mx-auto w-full px-6 md:px-10 lg:px-20 py-12 md:py-24">
+            <div className="mx-auto w-full px-6 md:px-10 lg:px-13 xl:px-auto py-12 md:py-24">
                 <div className="relative flex flex-col-reverse md:flex-row items-start justify-between gap-10 md:gap-6 lg:gap-12">
 
                     {/* TITLE WRAPPER */}
                     <div
                         ref={titleRef}
+                        // Tambahkan text color untuk dark mode agar tidak hilang
                         className="z-10 flex w-full flex-col items-start lowercase text-primary md:w-1/2 lg:w-auto"
                     >
-
-                        <h2 className="leading-[0.85] text-4xl md:text-5xl xl:text-[90px] uppercase font-bold mb-10 md:max-w-[300px] lg:max-w-[450px]">
+                        <h2 className={cn(
+                            "leading-[0.7] text-4xl md:text-5xl xl:text-[90px] 2xl:text-[107px] uppercase font-bold md:max-w-[300px] lg:max-w-[550px] mb-20",
+                            "text-black dark:text-white", // Pastikan warna light-nya didefinisikan eksplisit
+                            "transition-colors duration-800 ease-in-out" // Tambahkan ini agar smooth
+                        )}>
                             We don’t just produce content we build experiences
                         </h2>
-                        <div className="flex flex-col gap-4">
-                            <p className="uppercase text-lg lg:text-xl font-medium flex items-baseline tracking-widest">
+                        <div className="flex flex-col gap-4 transition-colors duration-800 ease-in-out">
+                            <p className="uppercase text-lg dark:text-white lg:text-xl font-medium flex items-baseline tracking-widest xl:mb-16">
                                 CREATIVE VISUAL PRODUCTION
                                 <span className="text-[0.8em] leading-none relative -top-[0.5em]">
                                     ®
@@ -73,16 +86,13 @@ export default function SecondHero() {
                             </p>
                             <Link
                                 href="#"
-                                className="group inline-flex flex-col w-fit text-lg lg:text-xl cursor-pointer hover:opacity-70 transition-opacity"
+                                className="group inline-flex flex-col w-fit text-lg lg:text-xl cursor-pointer hover:opacity-70 transition-colors duration-800 ease-in-out"
                             >
-                                {/* Menggunakan items-center agar icon dan teks sejajar secara vertikal di tengah */}
-                                <span className="inline-flex items-center gap-1 uppercase tracking-widest font-medium">
+                                <span className="inline-flex dark:text-white items-center gap-1 uppercase tracking-widest font-medium">
                                     See More
                                     <ArrowDownRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
                                 </span>
-
-                                {/* Garis tetap mengikuti panjang teks + icon */}
-                                <div className="h-[2px] w-0 bg-primary mt-1 transition-all duration-500 group-hover:w-full" />
+                                <div className="h-[2px] w-0 bg-current mt-1 transition-all duration-500 group-hover:w-full" />
                             </Link>
                         </div>
                     </div>
@@ -90,13 +100,9 @@ export default function SecondHero() {
                     {/* VIDEO WRAPPER */}
                     <div
                         ref={mediaWrapRef}
-                        className="w-full md:w-[50%] xl:w-[50%] lg:w-auto flex-shrink-0 self-start"
+                        className="w-full md:w-[50%] lg:w-[55%] xl:w-[50%] flex-shrink-0 self-start"
                     >
-                        {/* Tablet Fix:
-                            - md:h-[70vh] (lebih pendek di tablet agar tidak menutupi seluruh layar)
-                            - lg:h-[100vh] (kembali ke tinggi penuh di desktop)
-                        */}
-                        <div className="relative aspect-[4/5] h-[55vh] xl:h-[100vh] w-full overflow-hidden rounded shadow-2xl">
+                        <div className="relative aspect-[4/5] h-[55vh] lg:h-[50vh] xl:h-[120vh] 2xl:h-[140vh] w-full overflow-hidden rounded shadow-2xl">
                             <video
                                 className="h-full w-full object-cover"
                                 src="/intro.mp4"
@@ -108,7 +114,6 @@ export default function SecondHero() {
                             />
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
