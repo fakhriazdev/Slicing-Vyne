@@ -5,29 +5,34 @@ export function middleware(request: NextRequest) {
     const isMaintenance = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === "true";
     const { pathname } = request.nextUrl;
 
-    // 1. IZINKAN akses ke file statis dan gambar agar tidak kena redirect
+    // 1. Bypass untuk file statis & internal Next.js
     if (
         pathname.startsWith('/_next') ||
         pathname.startsWith('/api') ||
-        pathname.includes('.') || // Ini mengizinkan file seperti .png, .jpg, .svg
+        pathname.includes('.') ||
         pathname === '/favicon.ico'
     ) {
         return NextResponse.next();
     }
 
-    // 2. LOGIKA MAINTENANCE
+    // 2. Logika Redirect
     if (isMaintenance) {
-        // Jika kamu menaruh tampilan maintenance di halaman utama (/)
-        // maka kita hanya redirect jika user mencoba buka halaman lain (seperti /about)
-        if (pathname !== '/') {
-            return NextResponse.redirect(new URL('/', request.url));
+        // Biarkan akses ke halaman /maintenance itu sendiri agar tidak loop
+        if (pathname === '/maintenance') {
+            return NextResponse.next();
         }
+        // Lempar semua halaman lain ke /maintenance
+        return NextResponse.redirect(new URL('/maintenance', request.url));
+    }
+
+    // 3. Jika maintenance OFF tapi user mencoba buka /maintenance manual, balikkan ke Home
+    if (!isMaintenance && pathname === '/maintenance') {
+        return NextResponse.redirect(new URL('/', request.url));
     }
 
     return NextResponse.next();
 }
 
 export const config = {
-    // Matcher ini mengecualikan internal Next.js dan file statis
     matcher: '/((?!api|_next/static|_next/image|favicon.ico).*)',
 }
