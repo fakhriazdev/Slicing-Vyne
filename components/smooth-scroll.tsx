@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import LocomotiveScroll from "locomotive-scroll";
 
 export default function SmoothScroll({
                                          children,
@@ -12,7 +13,7 @@ export default function SmoothScroll({
     useEffect(() => {
         // Kita gunakan dynamic import karena Locomotive Scroll butuh objek 'window'
         // yang hanya ada di sisi client.
-        let locomotiveScroll: any;
+        let locomotiveScroll: LocomotiveScroll;
 
         (async () => {
             try {
